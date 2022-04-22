@@ -10,6 +10,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLConnection;
 import java.security.Principal;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -500,7 +501,7 @@ public class AlienController {
 	}
 	@RequestMapping(value = "/user/getEmployeesList", produces = "application/json")
     @ResponseBody
-    public Map<String,Object> getEmployeesList(Principal principal) {
+    public Map<String,Object> getEmployeesList(Principal principal) throws ParseException {
 		System.out.println(principal);
 		String emailId = principal.getName();
 		Student student = studentRepo.getStudentByMailId(emailId);
@@ -510,7 +511,11 @@ public class AlienController {
         empDetails.put("hobbies", student.getHobbies());
         System.out.println(student.getDate().toString().substring(0, 10));
         LocalDate dob = LocalDate.parse(student.getDate().toString().substring(0, 10));  
-        empDetails.put("age", commonMethod.calculateAge(dob));
+        //empDetails.put("age", commonMethod.calculateAge(dob));
+        //SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+        String date = student.getDate().toString().substring(0, 10).replaceAll("-", "/");
+        String[] splitDate = date.split("/");
+        empDetails.put("dateOfBirth", splitDate[2]+"/"+splitDate[1]+"/"+splitDate[0]);
         return empDetails;
 
     }
