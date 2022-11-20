@@ -54,6 +54,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @CrossOrigin(origins = "localhost:4200")
+//@CrossOrigin(origins = "splitter.ml")
 public class AlienController {
 	@Autowired
 	private AlienRepository ar;
